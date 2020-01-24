@@ -1,26 +1,20 @@
-// Modules to control application life and create native browser window
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, whatIsElectronWindow;
+let mainWindow, whatIsElectronWindow, howDoesItWorkWindow;
 
 function createWindow() {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true
-
     }
   })
 
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('./html/index.html')
 
   const mainMenuTemplate = [];
   if (process.platform === "darwin") {
@@ -55,19 +49,45 @@ function createWindow() {
     if (!whatIsElectronWindow) {
       whatIsElectronWindow = new BrowserWindow({
         width: 500,
-        height:300,
-        title:'What Is Electron?'
+        height: 300,
+        title: 'What Is Electron?'
       });
       whatIsElectronWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'whatIsElectron.html'),
+        pathname: path.join(__dirname, 'html/whatIsElectron.html'),
         protocol: 'file:',
-        slashes:true
+        slashes: true
       }));
       // Handle garbage collection
-      whatIsElectronWindow.on('close', function(){
+      whatIsElectronWindow.on('close', function () {
         whatIsElectronWindow = null;
       });
     }
+  });
+
+  ipcMain.on("how-does-it-work", () => {
+    if (!howDoesItWorkWindow) {
+      howDoesItWorkWindow = new BrowserWindow({
+        width: 500,
+        height: 600,
+        title: 'How Does It Work?',
+        webPreferences: {
+          nodeIntegration: true
+        }
+      });
+      howDoesItWorkWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'html/howDoesItWork.html'),
+        protocol: 'file:',
+        slashes: true
+      }));
+      // Handle garbage collection
+      howDoesItWorkWindow.on('close', function () {
+        whatIsElectronWindow = null;
+      });
+    }
+  });
+
+  ipcMain.on("send-message-to-main", function(e, message){
+    mainWindow.webContents.send('send-message-to-main', message);
   });
 }
 app.on('ready', createWindow)

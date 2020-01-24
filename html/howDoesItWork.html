@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Electron Demo</title>
+
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div style="margin: 20px">
+        <h1>How Does it Work?</h1>
+        <ol class="list-group list-group-flush">
+            <li class="list-group-item"><b>Chromium</b> rendering engine, <b>Node</b> runtime</li>
+            <li class="list-group-item" style="padding-left: 50px">All Node.js APIs are available in Electron (e.g.
+                accessing local file system)</li>
+            <li class="list-group-item">The main JS file is run by the <b>main process</b> (opens windows, handles
+                system events)</li>
+            <li class="list-group-item">Each new window runs on its own <b>renderer processes</b></li>
+            <li class="list-group-item" style="padding-left: 50px">These communicate with the main process by sending
+                serialised JSON objects via IPC (inter-process communication)</li>
+            <li class="list-group-item" style="padding-left: 50px">
+                For example:
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="messageForMain" placeholder="Send a message to the main process" />
+                    <div class="input-group-append"><button class="btn btn-info" id="sendMessageToMainButton">Send</button></div>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <script src="../renderer.js"></script>
+</body>
+
+</html>
