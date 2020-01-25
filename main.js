@@ -2,7 +2,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url');
 
-let mainWindow, whatIsElectronWindow, howDoesItWorkWindow;
+let mainWindow, howDoesItWorkWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -44,25 +44,6 @@ function createWindow() {
   mainWindow.on('closed', function () {
     mainWindow = null
   })
-
-  ipcMain.on("what-is-electron", () => {
-    if (!whatIsElectronWindow) {
-      whatIsElectronWindow = new BrowserWindow({
-        width: 500,
-        height: 300,
-        title: 'What Is Electron?'
-      });
-      whatIsElectronWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'html/whatIsElectron.html'),
-        protocol: 'file:',
-        slashes: true
-      }));
-      // Handle garbage collection
-      whatIsElectronWindow.on('close', function () {
-        whatIsElectronWindow = null;
-      });
-    }
-  });
 
   ipcMain.on("how-does-it-work", () => {
     if (!howDoesItWorkWindow) {
