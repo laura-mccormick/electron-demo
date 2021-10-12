@@ -11,6 +11,6 @@
   "author": "Laura McCormick",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^7.1.10"
+    "electron": "^11.5.0"
   }
 }
